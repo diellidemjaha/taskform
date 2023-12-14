@@ -74,3 +74,8 @@ body {
   background-size: cover;
 }
 /* react-frontend\src\assets\drew-beamer-kUHfMW8awpE-unsplash.jpg */
+.cards-alignment{
+  display: flex;
+  align-items: center; 
+  flex-direction: row;
+}

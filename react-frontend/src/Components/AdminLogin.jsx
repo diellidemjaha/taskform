@@ -34,7 +34,7 @@ const AdminLogin = () => {
   
   
           localStorage.setItem('token', token);
-          // localStorage.setItem('user_id', userId);
+          localStorage.setItem('user_id', response?.data?.user_id);
   
   
           window.location.href = '/tasks';

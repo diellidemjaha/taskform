@@ -96,7 +96,7 @@ class AuthController extends Controller
 
      
 
-        return response()->json(['message' => 'Admin login successful', 'token' => $token]);
+        return response()->json(['message' => 'Admin login successful', 'token' => $token , 'user_id' => $adminUser -> id]);
     }
 
     /**

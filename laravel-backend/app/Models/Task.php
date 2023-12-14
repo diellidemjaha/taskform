@@ -20,6 +20,8 @@ class Task extends Model
         'categories',
         'start_date',
         'end_date',
+        'admin_id',
+        'status',
     ];
     public function users()
     {

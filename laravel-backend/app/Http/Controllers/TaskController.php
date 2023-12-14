@@ -14,17 +14,17 @@ class TaskController extends Controller
     public function index()
     {
         // $tasks = Task::all();
-        $tasks = Task::with('users')->get();
+        $tasks = Task::with('users','categories')->get();
 
         return response()->json(['tasks' => $tasks]);
     }
     public function show($id)
     {
-        $task = Task::with(['users', 'categories'])->findOrFail($id);
-    
+        $task = Task::with(['users', 'categories', 'admin_id'])->findOrFail($id);
+
         return response()->json(['task' => $task]);
     }
-    
+
     public function store(Request $request)
     {
         $request->validate([
@@ -43,7 +43,7 @@ class TaskController extends Controller
             'description' => $request->input('description'),
             // 'categories' => $request->input('categories'),
             // 'has_task' => $request->input('has_task'),
-            // 'user_ids' => $request->input('user_ids'),
+            'admin_id' => $request->input('admin_id'),
             'status' => $request->input('status'),
             'start_date' => $request->input('start_date'),
             'end_date' => $request->input('end_date'),
@@ -54,48 +54,49 @@ class TaskController extends Controller
         $task->users()->attach($userIds);
 
         // Associate categories with the task
-        $categoryNames = $request->input('categories', []);
-        if (!empty($categoryNames)) {
-            $categoryIds = TasksCategory::whereIn('name', $categoryNames)->pluck('id');
-            $task->categories()->attach($categoryIds);
-        }
+        // $categoryNames = $request->input('categories', []);
+        // if (!empty($categoryNames)) {
+        //     $categoryIds = TasksCategory::whereIn('name', $categoryNames)->pluck('id');
+        //     $task->categories()->attach($categoryIds);
+        // }
 
+        $categoryIds = $request->input('categories', []);
+        $task->categories()->attach($categoryIds);
         // Optionally, eager load the users and categories to include them in the response
         $task->load('users', 'categories');
 
         // Log::info('Task created:', $task);
         return response()->json(['message' => 'Task created successfully', 'task' => $task], 201);
     }
-
     public function update(Request $request, $id)
     {
         $task = Task::findOrFail($id);
+        // $task['status'] = 2;
 
-        // $request->validate([
-        //     'title' => 'required|string',
-        //     'description' => 'required|string',
-        //     'categories' => 'required|array',
-        //     'has_task' => 'required|array',
-        //     'status' => 'required|integer',
-        //     'start_date' => 'required|date',
-        //     'end_date' => 'required|date',
-        // ]);
+        // $request["title"] = "Test";
+        // $request["status"] = 5;
 
-        $task->update($request->except('user_ids', 'categories')); // Exclude user_ids and categories from the mass update
+        // $task->status = $request->input('status');
+        // $task->title = $request->input('title');
+        $task->update($request->all());
 
         // Sync users with the task
-        $userIds = $request->input('user_ids', []);
+        $userIds = $request->input('user_ids', []); // Ensure it's an array, even if empty
         $task->users()->sync($userIds);
-    
+
         // Sync categories with the task
-        $categoryNames = $request->input('categories', []);
-        $categoryIds = TasksCategory::whereIn('name', $categoryNames)->pluck('id');
+        $categoryIds = $request->input('categories', []);
         $task->categories()->sync($categoryIds);
-    
-        // Optionally, you can eager load the users and categories to include them in the response
-        $task->load('users', 'categories'); 
-        return response()->json(['message' => 'Task updated successfully', 'task' => $task]);
+
+        // Optionally, eager load the users and categories to include them in the response
+        $task->load('users', 'categories');
+
+        // Log::info('Task updated:', $task);
+        return response()->json(['message' => 'Task updated successfully', 'task' => $task], 200);
     }
+
+
+
     public function destroy($id)
     {
         $task = Task::findOrFail($id);
