@@ -28,12 +28,13 @@ Task Form is a full-stack application designed to streamline task management, of
 - [MySQL](https://www.mysql.com/)
 
 ## Installation
-1. Clone the repository: `git clone https://github.com/your-username/task-form.git`
+1. Clone the repository: `git clone https://github.com/diellidemjaha/taskform.git`
 2. Install dependencies for Laravel: `composer install`
 3. Install dependencies for React: `npm install`
 4. Set up your database and update the `.env` file with the necessary configurations.
 5. Run migrations: `php artisan migrate`
 6. Start the development server: `php artisan serve` for Laravel and `npm start` for React.
+7. The app will run into `localhost:5173` port of React.
 
 ## Usage
 1. Register an account and log in.
