@@ -8,11 +8,36 @@ const EditTaskModal = ({ show, onHide, taskId, onDelete }) => {
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const [task, setTask] = useState({
+    title: '',
+    description: '',
+    status: Number(),
+    categories: [],
+    start_date: '',
+    end_date: '',
+    user_ids: '',
+    admin_id: Number(localStorage.getItem('user_id'))
+  });
   
   const fetchTask = async () => {
     try {
       const response = await axios.get(`http://localhost:8000/api/tasks/${taskId}`);
       setTask(response.data.task);
+
+      //new
+      if (response.data.task?.user_ids) {
+        const selectedUsers = users.filter((user) => response.data.task.user_ids.includes(user.id));
+        setSelectedUsers(selectedUsers);
+      }
+
+      if (response.data.task?.categories) {
+        const selectedCategories = categories.filter((category) =>
+          response.data.task.categories.includes(category.id)
+        );
+        setSelectedCategories(selectedCategories);
+      }
+
+      //
     } catch (error) {
       console.error('Error fetching task:', error);
     }
@@ -49,7 +74,7 @@ const EditTaskModal = ({ show, onHide, taskId, onDelete }) => {
     setSelectedUsers((prevUsers) =>
     prevUsers.some((user) => user.id === userId)
     ? prevUsers.filter((user) => user.id !== userId)
-    : [...prevUsers, { id: userId}]
+    : [...prevUsers, { id: userId, name: userName}]
     );
   };
   
@@ -60,16 +85,7 @@ const EditTaskModal = ({ show, onHide, taskId, onDelete }) => {
     : [...prevCategories, { id: categoryId, name: categoryName }]
     );
   };
-  const [task, setTask] = useState({
-    title: '',
-    description: '',
-    status: Number(),
-    categories: [],
-    start_date: '',
-    end_date: '',
-    user_ids: '',
-    admin_id: Number(localStorage.getItem('user_id'))
-  });
+
   const handleInputChange = (e) => {
     // const value = e.target.type === 'select' ? parseInt(e.target.value, 10) : e.target.value;
 
@@ -103,6 +119,11 @@ const EditTaskModal = ({ show, onHide, taskId, onDelete }) => {
         console.error('Error updating task:', response.status);
       }
     } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Error updating the task!',
+      });
       console.error('Error updating task:', error);
     }
   };
@@ -115,6 +136,7 @@ const EditTaskModal = ({ show, onHide, taskId, onDelete }) => {
       await axios.delete(`http://localhost:8000/api/tasks/delete-task/${taskId}`, { headers: headers });
       onHide();
       onDelete(taskId);
+      Swal.fire('Task deleted successfully!');
     } catch (error) {
       console.error('Error deleting task:', error);
     }
@@ -154,6 +176,16 @@ const EditTaskModal = ({ show, onHide, taskId, onDelete }) => {
                 </label>
                 <input type="date" className="form-control" id="end_date" name="end_date" value={task.end_date} onChange={handleInputChange} />
               </div>
+              <input
+              className="form-control mb-4"
+              type="text"
+              name="users"
+              placeholder="Choose from users list"
+              aria-label="default input example"
+              disabled
+              value={selectedUsers.map((user) => user.name).join(', ')}
+              onChange={(e) => setUser(e.target.value)}
+            />
               <div className="mb-3">
                 <label htmlFor="users" className="form-label">
                   Assign Users
@@ -163,13 +195,23 @@ const EditTaskModal = ({ show, onHide, taskId, onDelete }) => {
                     <li
                       key={user.id}
                       className={`list-group-item ${selectedUsers.some((selectedUser) => selectedUser.id === user.id) ? 'active' : ''}`}
-                      onClick={() => toggleUser(user?.id)}
+                      onClick={() => toggleUser(user?.id, user?.name)}
                     >
                       {user.name}
                     </li>
                   ))}
                 </ul>
               </div>
+              <input
+              className="form-control form-control-sm mb-4"
+              type="text"
+              placeholder="Choose categories"
+              aria-label=".form-control-sm example"
+              name="categories"
+              disabled
+              value={selectedCategories.map((categories) => categories.name).join(', ')}
+              onChange={(e) => setCategories(e.target.value)}
+            />
               <div className="mb-3">
                 <label htmlFor="categories" className="form-label">
                   Select Categories
