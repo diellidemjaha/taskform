@@ -14,6 +14,8 @@ Welcome to Task Form, a powerful task management application built with PHP Lara
 ## Introduction
 Task Form is a full-stack application designed to streamline task management, offering a feature-rich environment for users to efficiently handle their workload. The application focuses on user authentication, role-based access control, dynamic time management, and task categorization.
 
+![Example Screenshot](screenshot.jpg)
+
 ## Features
 - **User Authentication with Sanctum:** Securely manage user access using Laravel Sanctum.
 - **User Roles with Spatie:** Implement role-based access control, restricting certain operations to admin users.
