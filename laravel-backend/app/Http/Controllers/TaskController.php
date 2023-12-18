@@ -20,9 +20,35 @@ class TaskController extends Controller
     }
     public function show($id)
     {
-        $task = Task::with(['users', 'categories', 'admin_id'])->findOrFail($id);
+        $task = Task::with(['users', 'categories', 'admin'])->findOrFail($id);
 
-        return response()->json(['task' => $task]);
+        $usersData = $task->users->map(function ($user) {
+            return [
+                'user-id' => $user->id,
+                'user-name' => $user->name,
+                // Add other user attributes you want to include
+            ];
+        });
+        // $categoriesData = $task->categories->map(function ($category) {
+        //     return [
+        //         'category-id' => $category->id,
+        //         'category-name' => $category->name,
+        //         // Add other category attributes you want to include
+        //     ];
+        // });
+
+        return response()->json([
+            'task' => $task,
+            'task-title' => $task->title,
+            'task-description' => $task->description,
+            'task-start_date' => $task->start_date,
+            'task-end_date' => $task->end_date,
+            'task-status' => $task->status,
+            'task_categories' => $task->categories,
+            'task-admin-id' => $task->admin_id,
+            'task_users' => $usersData,
+            // 'task_categories' => $categoriesData,
+        ]);
     }
 
     public function store(Request $request)
