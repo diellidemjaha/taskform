@@ -148,16 +148,28 @@ const EditTaskModal = ({ show, onHide, taskId, onDelete }) => {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`http://localhost:8000/api/tasks/delete-task/${taskId}`, { headers: headers });
-      onHide();
-      onDelete(taskId);
-      Swal.fire('Task deleted successfully!');
+      const response = await axios.delete(`http://localhost:8000/api/tasks/delete-task/${taskId}`, { headers: headers });
+  
+      console.log('Delete Task Response:', response); // Log the entire response for debugging
+  
+      if (response.status === 204) {
+        onHide();
+        onDelete(taskId);
+        Swal.fire('Task deleted successfully!');
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Error deleting the task!',
+        });
+        console.error('Error deleting task:', response.status);
+      }
     } catch (error) {
       console.error('Error deleting task:', error);
       Swal.fire('Error deleting task!');
     }
   };
-
+  
   return (
     <div className={`modal fade ${show ? 'show' : ''}`} tabIndex="-1" role="dialog" style={{ display: show ? 'block' : 'none' }}>
       <div className="modal-dialog modal-lg" role="document">

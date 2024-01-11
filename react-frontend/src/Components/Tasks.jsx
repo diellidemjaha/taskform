@@ -51,6 +51,10 @@ const Tasks = () => {
     fetchUsers();
   }, []);
 
+  const handleDeleteTask = (taskId) => {
+    console.log(`Task ${taskId} deleted`);
+  };
+
   return (
     <div className="container">
       <div className="row">
@@ -93,7 +97,7 @@ const Tasks = () => {
           </div>
         ))}
       </div>
-      <EditTaskModal show={showEditModal} onHide={() => setShowEditModal(false)} taskId={selectedTaskId} />
+      <EditTaskModal show={showEditModal} onHide={() => setShowEditModal(false)} taskId={selectedTaskId} onDelete={handleDeleteTask} />
     </div>
   );
 };
