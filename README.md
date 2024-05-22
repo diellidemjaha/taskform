@@ -1,6 +1,6 @@
 # Task Form
 
-Welcome to Task Form, a powerful task management application built with PHP Laravel and React JS.
+Welcome to Task Form, a powerful task management application built with PHP Laravel and React JS. Utilized in the app is also Laravel Spatie for user roles and Laravel Sanctum for token based users authentication.
 
 ## Table of Contents
 - [Introduction](#introduction)
@@ -13,6 +13,8 @@ Welcome to Task Form, a powerful task management application built with PHP Lara
 
 ## Introduction
 Task Form is a full-stack application designed to streamline task management, offering a feature-rich environment for users to efficiently handle their workload. The application focuses on user authentication, role-based access control, dynamic time management, and task categorization.
+
+![Example Screenshot](taskform-screenshot.jpg)
 
 ## Features
 - **User Authentication with Sanctum:** Securely manage user access using Laravel Sanctum.

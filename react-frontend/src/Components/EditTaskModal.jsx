@@ -117,8 +117,15 @@ const EditTaskModal = ({ show, onHide, taskId, onDelete }) => {
 
   const handleUpdate = async () => {
     try {
+<<<<<<< HEAD
      const selectedUserIds = selectedUsers.map((user) => user.id);
   
+=======
+      // Map selected usernames to user IDs
+     const selectedUserIds = selectedUsers.map((user) => user.id);
+  
+      // Update the task object with user_ids as an array of IDs
+>>>>>>> dcb33d42a6829940aa8b1e9365afe472490dcee3
       const updatedTask = {
         ...task,
         user_ids: selectedUserIds,
@@ -128,7 +135,10 @@ const EditTaskModal = ({ show, onHide, taskId, onDelete }) => {
   
       if (response.status === 200) {
         Swal.fire('Task updated successfully!');
+<<<<<<< HEAD
         window.location.href = '/tasks';
+=======
+>>>>>>> dcb33d42a6829940aa8b1e9365afe472490dcee3
       } else {
         Swal.fire({
           icon: 'error',
@@ -151,7 +161,11 @@ const EditTaskModal = ({ show, onHide, taskId, onDelete }) => {
     try {
       const response = await axios.delete(`http://localhost:8000/api/tasks/delete-task/${taskId}`, { headers: headers });
   
+<<<<<<< HEAD
       console.log('Delete Task Response:', response); 
+=======
+      console.log('Delete Task Response:', response); // Log the entire response for debugging
+>>>>>>> dcb33d42a6829940aa8b1e9365afe472490dcee3
   
       if (response.status === 204) {
         onHide();
