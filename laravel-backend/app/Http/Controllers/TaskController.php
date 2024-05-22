@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Log;
 use App\Models\TasksCategory;
+use Illuminate\Support\Facades\Auth;
 
 
 use App\Models\Task;
@@ -20,13 +21,44 @@ class TaskController extends Controller
     }
     public function show($id)
     {
-        $task = Task::with(['users', 'categories', 'admin_id'])->findOrFail($id);
+        $task = Task::with(['users', 'categories', 'admin'])->findOrFail($id);
 
-        return response()->json(['task' => $task]);
+        $usersData = $task->users->map(function ($user) {
+            return [
+                'user-id' => $user->id,
+                'user-name' => $user->name,
+                // Add other user attributes you want to include
+            ];
+        });
+        // $categoriesData = $task->categories->map(function ($category) {
+        //     return [
+        //         'category-id' => $category->id,
+        //         'category-name' => $category->name,
+        //         // Add other category attributes you want to include
+        //     ];
+        // });
+
+        return response()->json([
+            'task' => $task,
+            'task-title' => $task->title,
+            'task-description' => $task->description,
+            'task-start_date' => $task->start_date,
+            'task-end_date' => $task->end_date,
+            'task-status' => $task->status,
+            'task_categories' => $task->categories,
+            'task-admin-id' => $task->admin_id,
+            'task_users' => $usersData,
+            // 'task_categories' => $categoriesData,
+        ]);
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request){
+        $user = auth('sanctum')->user();
+
+    // if($user->role_id == "user") {
+    //     return response()->json(['message' => 'You are not authenticated to create a task', 403]);
+
+    // }
         $request->validate([
             // 'title' => 'required|string',
             // 'description' => 'required|string',
@@ -67,7 +99,9 @@ class TaskController extends Controller
 
         // Log::info('Task created:', $task);
         return response()->json(['message' => 'Task created successfully', 'task' => $task], 201);
+        
     }
+
     public function update(Request $request, $id)
     {
         $task = Task::findOrFail($id);
@@ -102,6 +136,6 @@ class TaskController extends Controller
         $task = Task::findOrFail($id);
         $task->delete();
 
-        return response()->json(['message' => 'Task deleted successfully']);
+        return response()->json(['message' => 'Task deleted successfully'], 204);
     }
 }

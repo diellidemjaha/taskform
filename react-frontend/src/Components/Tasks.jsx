@@ -2,7 +2,7 @@ import Navbar from './NavBar';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import EditTaskModal from './EditTaskModal';
-import ProgressBar from './ProgressBar'; // Import the ProgressBar component
+import ProgressBar from './ProgressBar'; 
 
 const mapStatusToLabel = (status) => {
   switch (status) {
@@ -51,6 +51,10 @@ const Tasks = () => {
     fetchUsers();
   }, []);
 
+  const handleDeleteTask = (taskId) => {
+    console.log(`Task ${taskId} deleted`);
+  };
+
   return (
     <div className="container">
       <div className="row">
@@ -65,7 +69,6 @@ const Tasks = () => {
                 <p className="card-text">{task.description}</p>
                 <p className="card-text">Deadline: {task.end_date}</p>
                 <div className="container m-4 p-1 mx-auto">
-                  {/* Use ProgressBar component here */}
                   <ProgressBar task={task} />
 
                   {task?.users?.map((el, userIndex) => (
@@ -93,7 +96,7 @@ const Tasks = () => {
           </div>
         ))}
       </div>
-      <EditTaskModal show={showEditModal} onHide={() => setShowEditModal(false)} taskId={selectedTaskId} />
+      <EditTaskModal show={showEditModal} onHide={() => setShowEditModal(false)} taskId={selectedTaskId} onDelete={handleDeleteTask} />
     </div>
   );
 };

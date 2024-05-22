@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Navbar from './NavBar';
 import Swal from 'sweetalert2';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Task = () => {
   const [taskName, setTaskName] = useState('');
@@ -13,6 +14,7 @@ const Task = () => {
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const navigate = useNavigate();
 
   const toggleUser = (userId, userName) => {
     setSelectedUsers((prevUsers) =>
@@ -72,36 +74,36 @@ const Task = () => {
           end_date: endDate,
           status: 1,
         },
-        { headers: headers } // Pass the headers object here
+        { headers: headers }
       );
 
       if (response.status === 201) {
-        // Task created successfully
         Swal.fire('Task created successfully!');
-        // Optionally, you can reset the form fields after successful submission
         setTaskName('');
         setDescription('');
-        setUser('');
-        setCategories('');
+        setSelectedUsers([]);
+        setSelectedCategories([]);
         setStartDate('');
         setEndDate('');
-        // You can also update the UI with the new task data if needed
-        // For example, if you have a list of tasks, you can add the new task to the list
+        navigate('/tasks');
+      }
+    } catch (error) {
+      if (error.response) {
+        const errorMessage = error.response.data.message || 'Something went wrong!';
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: errorMessage,
+        });
+        console.error('Error creating task:', error.response.status, errorMessage); 
       } else {
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
-          text: 'Error creating the task!',
+          text: error.message,
         });
-        console.error('Error creating task:', response.status);
+        console.error('Error creating task:', error);
       }
-    } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Error creating the task!',
-      });
-      console.error('Error creating task:', error);
     }
   };
 

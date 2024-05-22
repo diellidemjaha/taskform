@@ -8,16 +8,12 @@ const ProgressBar = ({ task }) => {
     const startDate = new Date(start_date);
     const endDate = new Date(end_date);
 
-    // Calculate the total duration in milliseconds
     const totalDuration = endDate - startDate;
 
-    // Calculate the elapsed time in milliseconds
     const elapsedTime = currentDate - startDate;
 
-    // Calculate the percentage of elapsed time relative to the total duration
     const progressPercentage = (elapsedTime / totalDuration) * 100;
 
-    // Ensure the progress percentage is within the 0-100 range
     return Math.min(100, Math.max(0, progressPercentage));
   };
 

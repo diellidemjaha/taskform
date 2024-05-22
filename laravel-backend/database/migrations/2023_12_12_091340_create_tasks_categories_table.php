@@ -10,13 +10,13 @@ class CreateTasksCategoriesTable extends Migration
     {
         Schema::create('tasks_categories', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->unsignedBigInteger('task_id');
+            $table->unsignedBigInteger('category_id');
             $table->timestamps();
 
             $table->foreign('task_id')->references('id')->on('tasks')->onDelete('cascade');
-            $table->foreign('tasks_category_id')->references('id')->on('tasks_categories')->onDelete('cascade');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
         });
-        
     }
 
     public function down()

@@ -4,13 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Permission\Traits\HasRoles;
 
 
 
 class Task extends Model
 {
-    use HasFactory, HasRoles;
+    use HasFactory;
 
     protected $guard_name = 'web';
     protected $fillable = [
@@ -30,5 +29,9 @@ class Task extends Model
     public function categories()
     {
         return $this->belongsToMany(TasksCategory::class, 'task_categories');
+    }
+    public function admin()
+    {
+        return $this->belongsTo(User::class, 'admin_id');
     }
 }
