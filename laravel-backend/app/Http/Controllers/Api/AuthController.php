@@ -15,10 +15,7 @@ use Spatie\Permission\Traits\HasRoles;
 class AuthController extends Controller
 {
     /**
-     * Register a new user.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
+     * Register a new user
      */
     use HasRoles;
     public function register(Request $request)
@@ -34,12 +31,6 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
-
-        // Assign the "user" role to the new user
-        // $user->assignRole('user');
-        // $user->givePermissionTo(['create tasks']);
-        // Role::create(['name' =>'user']);
-
 
         $user->assignRole('user');
         $user->givePermissionTo(['read tasks']);
@@ -66,9 +57,6 @@ class AuthController extends Controller
 
 
         // Assign the "user" role to the new user
-        // $adminUser->assignRole('admin');
-      
-        // Role::create(['name' =>'admin']);
         $adminUser->assignRole('admin');
         $adminUser->givePermissionTo(['create tasks', 'update tasks', 'delete tasks']);
 
@@ -78,9 +66,8 @@ class AuthController extends Controller
 
     public function adminLogin(Request $request)
     {
-        // Your login logic for admins goes here
 
-        // Assuming you have checked the credentials and found the admin user
+        //Admin login
         $adminUser = User::where('email', $request->email)->first();
 
         if (!$adminUser || !Hash::check($request->password, $adminUser->password)) {
@@ -89,21 +76,14 @@ class AuthController extends Controller
             ]);
         }
 
-        // Assign the "admin" role to the admin user if not already assigned
-        
         // Create a token for the admin user
         $token = $adminUser->createToken('admin-auth-token')->plainTextToken;
-
      
-
         return response()->json(['message' => 'Admin login successful', 'token' => $token , 'user_id' => $adminUser -> id]);
     }
 
     /**
      * Login user and create a token.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
      */
     public function login(Request $request)
     {
@@ -122,16 +102,12 @@ class AuthController extends Controller
 
         $token = $user->createToken('auth-token')->plainTextToken;
 
-      
 
         return response()->json(['message' => 'Login successful', 'token' => $token]);
     }
 
     /**
-     * Logout user and revoke the token.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
+     * Logout user and revoke the token from the user
      */
     public function logout(Request $request)
     {
