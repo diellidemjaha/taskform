@@ -12,13 +12,14 @@ use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
+    //Show all tasks with their categories
     public function index()
     {
-        // $tasks = Task::all();
         $tasks = Task::with('users','categories')->get();
 
         return response()->json(['tasks' => $tasks]);
     }
+    
     public function show($id)
     {
         $task = Task::with(['users', 'categories', 'admin'])->findOrFail($id);
@@ -27,16 +28,8 @@ class TaskController extends Controller
             return [
                 'user-id' => $user->id,
                 'user-name' => $user->name,
-                // Add other user attributes you want to include
             ];
         });
-        // $categoriesData = $task->categories->map(function ($category) {
-        //     return [
-        //         'category-id' => $category->id,
-        //         'category-name' => $category->name,
-        //         // Add other category attributes you want to include
-        //     ];
-        // });
 
         return response()->json([
             'task' => $task,
@@ -48,17 +41,12 @@ class TaskController extends Controller
             'task_categories' => $task->categories,
             'task-admin-id' => $task->admin_id,
             'task_users' => $usersData,
-            // 'task_categories' => $categoriesData,
         ]);
     }
 
     public function store(Request $request){
         $user = auth('sanctum')->user();
 
-    // if($user->role_id == "user") {
-    //     return response()->json(['message' => 'You are not authenticated to create a task', 403]);
-
-    // }
         $request->validate([
             // 'title' => 'required|string',
             // 'description' => 'required|string',
@@ -85,37 +73,25 @@ class TaskController extends Controller
         $userIds = $request->input('user_ids', []); // Ensure it's an array, even if empty
         $task->users()->attach($userIds);
 
-        // Associate categories with the task
-        // $categoryNames = $request->input('categories', []);
-        // if (!empty($categoryNames)) {
-        //     $categoryIds = TasksCategory::whereIn('name', $categoryNames)->pluck('id');
-        //     $task->categories()->attach($categoryIds);
-        // }
-
         $categoryIds = $request->input('categories', []);
         $task->categories()->attach($categoryIds);
+        
         // Optionally, eager load the users and categories to include them in the response
         $task->load('users', 'categories');
 
-        // Log::info('Task created:', $task);
         return response()->json(['message' => 'Task created successfully', 'task' => $task], 201);
-        
     }
 
+    //Update the Task
     public function update(Request $request, $id)
     {
         $task = Task::findOrFail($id);
-        // $task['status'] = 2;
 
-        // $request["title"] = "Test";
-        // $request["status"] = 5;
 
-        // $task->status = $request->input('status');
-        // $task->title = $request->input('title');
         $task->update($request->all());
 
         // Sync users with the task
-        $userIds = $request->input('user_ids', []); // Ensure it's an array, even if empty
+        $userIds = $request->input('user_ids', []); 
         $task->users()->sync($userIds);
 
         // Sync categories with the task
@@ -125,7 +101,6 @@ class TaskController extends Controller
         // Optionally, eager load the users and categories to include them in the response
         $task->load('users', 'categories');
 
-        // Log::info('Task updated:', $task);
         return response()->json(['message' => 'Task updated successfully', 'task' => $task], 200);
     }
 
