@@ -22,14 +22,6 @@ const ProgressBar = ({ task }) => {
   useEffect(() => {
     // Recalculate progress when the component mounts
     setProgress(calculateProgress());
-
-    // Optionally, you can update the progress periodically using a timer
-    // const timer = setInterval(() => {
-    //   setProgress(calculateProgress());
-    // }, 1000);
-
-    // Cleanup the timer when the component unmounts
-    // return () => clearInterval(timer);
   }, [task]);
 
   return (
