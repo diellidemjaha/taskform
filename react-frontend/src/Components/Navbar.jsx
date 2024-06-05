@@ -5,7 +5,6 @@ import axios from 'axios';
 const Navbar = () => {
 
   let hasToken = localStorage.getItem('token');
-  // const [editTrigger, setEditTrigger] = useState(false);
 
   const handleLogout = async (e) => {
     try {
@@ -20,7 +19,6 @@ const Navbar = () => {
 
         localStorage.clear()
 
-        //   navigate('/login');
         window.location.href = '/login';
 
       }
@@ -95,21 +93,12 @@ const Navbar = () => {
             </li>
           </ul>
 
-
-
           {hasToken ? (
-            // <>
               <Link to="/logout"><button type="button" className="btn btn-outline-light me-2 float-end" onClick={() => handleLogout()}>Sign out</button></Link>
           
-            // </>
            ) : (
-            // <>
             <p> </p>
-            // </>
             )}
-
-
-
 
         </div>
       </div>
