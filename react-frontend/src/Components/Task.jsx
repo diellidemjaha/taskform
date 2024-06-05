@@ -107,10 +107,8 @@ const Task = () => {
     }
   };
 
-  // console.log('selectedUsers', selectedUsers.map(el => el.id))
   return (
     <>
-      {/* <Navbar/> */}
       <div className="container text-center bg-light mt-4 mx-auto">
         <div className="row">
           <div className="col-sm-8 p-4">
@@ -190,7 +188,6 @@ const Task = () => {
             </ul>
           </div>
         </div>
-        {/* <div className="col-sm-4 p-4"> */}
           <h4 className="text-warning">Choose categories:</h4>
           <ul className="list-group">
           {categories.map((category) => (
@@ -203,7 +200,6 @@ const Task = () => {
             </li>
           ))}
           </ul>
-        {/* </div> */}
       </div>
 
       <div className="container mt-3 mx-auto">
@@ -211,9 +207,6 @@ const Task = () => {
           <div className="col-sm-12 p-4">
             <div className="text-center container bg-warning m-2 p-2 text-light fw-bold rounded-1">List of tasks</div>
           </div>
-        </div>
-        <div className="row">
-          <div className="container bg-light text-dark">{/* Content for list of tasks goes here */}</div>
         </div>
       </div>
     </>
