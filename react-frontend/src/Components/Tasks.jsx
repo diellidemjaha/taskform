@@ -32,7 +32,8 @@ const Tasks = () => {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/tasks'); // Replace with your API endpoint
+        //Fetch the tasks
+        const response = await axios.get('http://localhost:8000/api/tasks'); 
         setTasks(response.data.tasks);
       } catch (error) {
         console.error('Error fetching tasks:', error);
@@ -40,6 +41,7 @@ const Tasks = () => {
     };
     const fetchUsers = async () => {
       try {
+        //Fetch the users 
         const response = await axios.get('http://localhost:8000/api/users');
         setUsers(response.data.users);
       } catch (error) {
