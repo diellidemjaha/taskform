@@ -31,15 +31,12 @@ const Login = () => {
     
     
             const token = response.data.token;
-            // const userId = response.data.user_id;
     
     
             localStorage.setItem('token', token);
-            // localStorage.setItem('user_id', userId);
     
     
             window.location.href = '/tasks';
-            // navigate('/tasks');
 
             let timerInterval;
             Swal.fire({
@@ -95,7 +92,6 @@ const Login = () => {
 
     return (
         <div>
-            {/* <Navbar /> */}
             <div className="container mt-5">
                 <div className="row justify-content-center">
                     <div className="col-md-6">
