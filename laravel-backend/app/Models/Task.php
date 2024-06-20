@@ -28,7 +28,7 @@ class Task extends Model
     }
     public function categories()
     {
-        return $this->belongsToMany(TasksCategory::class, 'task_categories');
+        return $this->belongsToMany(Category::class, 'task_categories');
     }
     public function admin()
     {

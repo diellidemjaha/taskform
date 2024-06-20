@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\TaskCategoryController;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,7 +36,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 
 Route::get('/users', [UserController::class, 'index']);
-Route::get('/categories', [TaskCategoryController::class, 'index']);
+Route::get('/categories', [CategoryController::class, 'index']);
 
 Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
     Route::get('/tasks/{id}', [TaskController::class, 'show']);

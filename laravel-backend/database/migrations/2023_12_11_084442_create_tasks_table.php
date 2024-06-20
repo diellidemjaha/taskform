@@ -13,7 +13,8 @@ class CreateTasksTable extends Migration
             $table->text('description');
             $table->json('has_task')->nullable(); // Assuming you want to store user IDs in an array
             $table->json('categories')->nullable();
-            $table->foreignId('admin_id')->constrained('users');
+            // $table->integer('admin_id');
+            $table->unsignedBigInteger('admin_id')->constrained('users');
             $table->date('start_date');
             $table->date('end_date');
             $table->timestamps();
