@@ -119,11 +119,13 @@ const EditTaskModal = ({ show, onHide, taskId, onDelete }) => {
     try {
       // Map selected usernames to user IDs
      const selectedUserIds = selectedUsers.map((user) => user.id);
+     const selectedCategoriesIds = selectedCategories.map((category) => category.id);
   
       // Update the task object with user_ids as an array of IDs
       const updatedTask = {
         ...task,
         user_ids: selectedUserIds,
+        task_categories: selectedCategoriesIds,
       };
   
       const response = await axios.post(`http://localhost:8000/api/tasks/update-task/${taskId}`, updatedTask, { headers: headers });

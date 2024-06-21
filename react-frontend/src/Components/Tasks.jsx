@@ -58,11 +58,11 @@ const Tasks = () => {
   };
 
   return (
-    <div className="container">
+    <div className="container background">
       <div className="row">
         {tasks.map((task, index) => (
-          <div key={task.id} className="col-sm-3 mt-5">
-            <div className={`card border-${statusColors[index % statusColors.length]} mb-3`} style={{ maxWidth: '18rem' }}>
+          <div key={task.id} className="col-xs-12 col-sm-8	col-md-6 col-lg-4 my-4">
+            <div className={`card border-${statusColors[index % statusColors.length]} my-2 mx-2`}>
               <div className={`card-header bg-${statusColors[index % statusColors.length]} text-light fw-bold`}>
                 {`Task #${task.id}`} <small className="text-body-light float-end">{`from: ${users?.find(el => el?.id == task?.admin_id)?.name}`}</small>
               </div>
@@ -97,9 +97,9 @@ const Tasks = () => {
             </div>
           </div>
         ))}
-      </div>
       <EditTaskModal show={showEditModal} onHide={() => setShowEditModal(false)} taskId={selectedTaskId} onDelete={handleDeleteTask} />
     </div>
+      </div>
   );
 };
 

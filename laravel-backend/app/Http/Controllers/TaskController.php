@@ -15,31 +15,31 @@ class TaskController extends Controller
     //Show all tasks with their categories
     public function index()
     {
-        $tasks = Task::with('users','categories')->get();
+        $tasks = Task::with('users','categories', 'admin')->get();
 
         return response()->json(['tasks' => $tasks]);
     }
     
     public function show($id)
     {
-        $task = Task::with(['users', 'categories', 'admin'])->findOrFail($id);
+        $tasks = Task::with(['users', 'categories', 'admin'])->findOrFail($id);
 
-        $usersData = $task->users->map(function ($user) {
+        $usersData = $tasks->users->map(function ($user) {
             return [
-                'user-id' => $user->id,
-                'user-name' => $user->name,
+                'admin_id' => $user->id,
+                'admin-name' => $user->name,
             ];
         });
 
         return response()->json([
-            'task' => $task,
-            'task-title' => $task->title,
-            'task-description' => $task->description,
-            'task-start_date' => $task->start_date,
-            'task-end_date' => $task->end_date,
-            'task-status' => $task->status,
-            'task_categories' => $task->categories,
-            'task-admin-id' => $task->admin_id,
+            'task' => $tasks,
+            'task-title' => $tasks->title,
+            'task-description' => $tasks->description,
+            'task-start_date' => $tasks->start_date,
+            'task-end_date' => $tasks->end_date,
+            'task-status' => $tasks->status,
+            'task_categories' => $tasks->categories,
+            'task-admin-id' => $tasks->admin_id,
             'task_users' => $usersData,
         ]);
     }

@@ -34,6 +34,7 @@ const Login = () => {
     
     
             localStorage.setItem('token', token);
+            localStorage.setItem('user_id', response?.data?.user_id);
     
     
             window.location.href = '/tasks';

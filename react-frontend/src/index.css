@@ -76,6 +76,24 @@ body {
 /* react-frontend\src\assets\drew-beamer-kUHfMW8awpE-unsplash.jpg */
 .cards-alignment{
   display: flex;
+  flex-wrap: wrap;
   align-items: center; 
+  justify-content: center;
   flex-direction: row;
+}
+
+.equal-card {
+  /* margin: 0px; */
+}
+
+.equal-card-height {
+  /* height: auto;  */
+  /* margin: auto; */
+  /* height:fit-content; */
+}
+
+.background {
+  background-color: white;
+  /* margin-top: 50px; */
+  margin-bottom: 25px;
 }
