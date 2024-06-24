@@ -111,7 +111,7 @@ const Task = () => {
     <>
       <div className="container text-center bg-light mt-4 mx-auto">
         <div className="row">
-          <div className="col-sm-8 p-4">
+          <div className="col-sm-8 col-lg-4 p-4">
             <h4 className="text-warning">Make a new Task</h4>
             <input
               className="form-control form-control-lg mb-4"
@@ -169,7 +169,7 @@ const Task = () => {
             />
             <input
               type="submit"
-              className="btn btn-outline-warning mb-4"
+              className="btn btn-outline-warning mb-4 col-12"
               onClick={handleSubmit}
             />
           </div>

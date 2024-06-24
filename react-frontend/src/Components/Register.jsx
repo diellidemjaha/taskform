@@ -89,6 +89,7 @@ const Register = () => {
                     <div className="col-md-6">
                         <div className="card">
                             <div className="card-body">
+                            <h1 className='card-title text-center mb-4'>Task Form</h1>
                                 <h5 className="card-title text-center mb-4">Register as a user</h5>
                                 <form onSubmit={handleSubmit} method="POST" action="">
                                     <div className="mb-3">

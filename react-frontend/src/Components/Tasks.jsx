@@ -20,7 +20,7 @@ const mapStatusToLabel = (status) => {
 const Tasks = () => {
   const [tasks, setTasks] = useState([]);
   const [users, setUsers] = useState([]);
-  const statusColors = ['primary', 'warning', 'info', 'danger'];
+  const statusColors = ['primary', 'warning', 'info', 'success', 'danger'];
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedTaskId, setSelectedTaskId] = useState(null);
 
@@ -61,8 +61,8 @@ const Tasks = () => {
     <div className="container background">
       <div className="row">
         {tasks.map((task, index) => (
-          <div key={task.id} className="col-xs-12 col-sm-8	col-md-6 col-lg-4 my-4">
-            <div className={`card border-${statusColors[index % statusColors.length]} my-2 mx-2`}>
+          <div key={task.id} className="col-xs-12 col-sm-8 col-md-6 col-lg-3 my-2 d-flex flex-wrap p-0 m-0">
+            <div className={`card border-${statusColors[index % statusColors.length]} my-2 mx-auto`}>
               <div className={`card-header bg-${statusColors[index % statusColors.length]} text-light fw-bold`}>
                 {`Task #${task.id}`} <small className="text-body-light float-end">{`from: ${users?.find(el => el?.id == task?.admin_id)?.name}`}</small>
               </div>
